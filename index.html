@@ -9,23 +9,21 @@
 
 body{
 margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ff9ecf,#caa8ff);
 overflow:hidden;
-font-family: "Segoe UI", sans-serif;
-background:linear-gradient(135deg,#ffb6d9,#d6b3ff);
-height:100vh;
-color:white;
 text-align:center;
+color:white;
 }
 
 h1{
 margin-top:20px;
-font-size:42px;
-text-shadow:0 0 10px pink;
+font-size:40px;
+text-shadow:0 0 15px pink;
 }
 
 #bunny{
 font-size:80px;
-margin-top:10px;
 animation:float 3s infinite ease-in-out;
 }
 
@@ -36,10 +34,10 @@ animation:float 3s infinite ease-in-out;
 }
 
 .boxes{
-margin-top:40px;
 display:flex;
 justify-content:center;
-gap:30px;
+gap:25px;
+margin-top:40px;
 flex-wrap:wrap;
 }
 
@@ -52,82 +50,68 @@ border-radius:20px;
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:45px;
 cursor:pointer;
-font-size:40px;
-box-shadow:0 0 20px rgba(255,255,255,0.7);
 transition:0.3s;
+box-shadow:0 0 15px white;
 }
 
 .box:hover{
-transform:scale(1.1);
+transform:scale(1.15);
 }
 
-#letters{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-}
-
-.letter{
-position:absolute;
+#messageBox{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 background:white;
 color:black;
-padding:10px;
-border-radius:10px;
-animation:fall 8s linear;
-}
-
-@keyframes fall{
-0%{transform:translateY(-100px)}
-100%{transform:translateY(100vh)}
-}
-
-#message{
-margin-top:40px;
-font-size:24px;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-}
-
-#proposal{
+padding:25px;
+border-radius:15px;
+width:320px;
 display:none;
-margin-top:50px;
-}
-
-button{
-padding:15px 25px;
+box-shadow:0 0 20px pink;
 font-size:18px;
-border:none;
-border-radius:30px;
-margin:10px;
-cursor:pointer;
 }
 
-#yes{
+#close{
+margin-top:10px;
+padding:8px 15px;
+border:none;
 background:#ff4da6;
 color:white;
-}
-
-#no{
-background:black;
-color:white;
-position:relative;
+border-radius:10px;
+cursor:pointer;
 }
 
 .heart{
 position:absolute;
-color:pink;
-animation:rise 4s linear infinite;
+font-size:25px;
+animation:rise 4s linear forwards;
 }
 
 @keyframes rise{
 0%{transform:translateY(0);opacity:1}
 100%{transform:translateY(-600px);opacity:0}
 }
+
+#proposal{
+display:none;
+margin-top:40px;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+border:none;
+border-radius:25px;
+margin:10px;
+cursor:pointer;
+}
+
+#yes{background:#ff4da6;color:white;}
+#no{background:black;color:white;position:relative;}
 
 </style>
 </head>
@@ -138,22 +122,16 @@ animation:rise 4s linear infinite;
 
 <div id="bunny">🐰</div>
 
-<div id="message">
-Hello Rena 💖  
-This little bunny was protecting my love for you.  
-Today it will show you what lives inside my heart.
-</div>
+<p>This bunny has been guarding my love for you Rena 💖</p>
 
 <div class="boxes">
 
 <div class="box" onclick="letters()">💌</div>
-<div class="box" onclick="kisses()">😘</div>
+<div class="box" onclick="kisses()">💋</div>
 <div class="box" onclick="cake()">🍰</div>
-<div class="box" onclick="heartVault()">❤️</div>
+<div class="box" onclick="heart()">❤️</div>
 
 </div>
-
-<div id="letters"></div>
 
 <div id="proposal">
 <h2>Will you stay in my universe forever? 💍</h2>
@@ -161,7 +139,20 @@ Today it will show you what lives inside my heart.
 <button id="no">NO 💔</button>
 </div>
 
+<div id="messageBox">
+<div id="text"></div>
+<button id="close" onclick="closeMsg()">Close</button>
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6caa1b6c8c.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+
+document.body.addEventListener("click",()=>{
+document.getElementById("music").play();
+},{once:true});
 
 const quotes=[
 "You are the calm in my chaos.",
@@ -176,31 +167,37 @@ const quotes=[
 "My heart beats your name."
 ];
 
+let q=0;
+
+function showMessage(msg){
+document.getElementById("text").innerHTML=msg;
+document.getElementById("messageBox").style.display="block";
+}
+
+function closeMsg(){
+document.getElementById("messageBox").style.display="none";
+}
+
 function letters(){
 
-for(let i=0;i<15;i++){
+showMessage(quotes[q]);
 
-let letter=document.createElement("div");
-letter.className="letter";
-letter.style.left=Math.random()*100+"%";
-letter.style.animationDuration=(5+Math.random()*5)+"s";
-letter.innerText=quotes[Math.floor(Math.random()*quotes.length)];
+q++;
 
-document.getElementById("letters").appendChild(letter);
-
-setTimeout(()=>letter.remove(),8000);
-
+if(q>=quotes.length){
+q=0;
 }
 
 }
 
 function kisses(){
 
-for(let i=0;i<40;i++){
+for(let i=0;i<30;i++){
 
 let heart=document.createElement("div");
 heart.className="heart";
 heart.innerHTML="💋";
+
 heart.style.left=Math.random()*100+"%";
 heart.style.bottom="0px";
 
@@ -210,21 +207,18 @@ setTimeout(()=>heart.remove(),4000);
 
 }
 
-document.getElementById("message").innerText=
-"Every kiss flying here is one I wish I could give you right now.";
+showMessage("Every kiss floating here is one I wish I could give you right now 💋");
 
 }
 
 function cake(){
 
-document.getElementById("message").innerText=
-"Sweet chocolate and cheesecake remind me of you. But even they are jealous of your sweetness.";
-
-for(let i=0;i<20;i++){
+for(let i=0;i<25;i++){
 
 let heart=document.createElement("div");
 heart.className="heart";
 heart.innerHTML="🍫";
+
 heart.style.left=Math.random()*100+"%";
 heart.style.bottom="0px";
 
@@ -234,12 +228,13 @@ setTimeout(()=>heart.remove(),4000);
 
 }
 
+showMessage("Chocolate and cheesecake remind me of you... sweet, beautiful, and impossible to resist 🍰");
+
 }
 
-function heartVault(){
+function heart(){
 
-document.getElementById("message").innerHTML=
-"Rena... <br><br> In every universe, every timeline, every life... <br> I would still find you. <br> And I would still fall in love with you.";
+showMessage("Rena... In every universe, every timeline, every life... I would still find you and fall in love with you again ❤️");
 
 document.getElementById("proposal").style.display="block";
 
@@ -247,8 +242,7 @@ document.getElementById("proposal").style.display="block";
 
 function yes(){
 
-document.body.innerHTML=
-"<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>";
+document.body.innerHTML="<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>";
 
 }
 
