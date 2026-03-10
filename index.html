@@ -1,12 +1,11 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Rena's Love Wonderland</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial;
@@ -112,8 +111,8 @@ cursor:pointer;
 
 #yes{background:#ff4da6;color:white;}
 #no{background:black;color:white;position:relative;}
-
 </style>
+
 </head>
 
 <body>
@@ -125,12 +124,10 @@ cursor:pointer;
 <p>This bunny has been guarding my love for you Rena 💖</p>
 
 <div class="boxes">
-
 <div class="box" onclick="letters()">💌</div>
 <div class="box" onclick="kisses()">💋</div>
 <div class="box" onclick="cake()">🍰</div>
 <div class="box" onclick="heart()">❤️</div>
-
 </div>
 
 <div id="proposal">
@@ -145,13 +142,15 @@ cursor:pointer;
 </div>
 
 <audio id="music" loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6caa1b6c8c.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-document.body.addEventListener("click",()=>{
-document.getElementById("music").play();
+const music = document.getElementById("music");
+
+document.body.addEventListener("click",function(){
+music.play();
 },{once:true});
 
 const quotes=[
@@ -179,15 +178,9 @@ document.getElementById("messageBox").style.display="none";
 }
 
 function letters(){
-
 showMessage(quotes[q]);
-
 q++;
-
-if(q>=quotes.length){
-q=0;
-}
-
+if(q>=quotes.length){q=0;}
 }
 
 function kisses(){
@@ -204,11 +197,9 @@ heart.style.bottom="0px";
 document.body.appendChild(heart);
 
 setTimeout(()=>heart.remove(),4000);
-
 }
 
 showMessage("Every kiss floating here is one I wish I could give you right now 💋");
-
 }
 
 function cake(){
@@ -225,11 +216,9 @@ heart.style.bottom="0px";
 document.body.appendChild(heart);
 
 setTimeout(()=>heart.remove(),4000);
-
 }
 
 showMessage("Chocolate and cheesecake remind me of you... sweet, beautiful, and impossible to resist 🍰");
-
 }
 
 function heart(){
@@ -237,13 +226,11 @@ function heart(){
 showMessage("Rena... In every universe, every timeline, every life... I would still find you and fall in love with you again ❤️");
 
 document.getElementById("proposal").style.display="block";
-
 }
 
 function yes(){
 
 document.body.innerHTML="<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>";
-
 }
 
 const no=document.getElementById("no");
@@ -260,4 +247,3 @@ no.style.top=Math.random()*window.innerHeight+"px";
 
 </body>
 </html>
-```
