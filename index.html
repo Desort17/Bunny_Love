@@ -6,13 +6,30 @@
 <title>Rena's Love Wonderland</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#ff9ecf,#caa8ff);
 overflow:hidden;
-text-align:center;
+font-family:Arial;
+background:linear-gradient(135deg,#ff8fcf,#caa8ff);
 color:white;
+text-align:center;
+}
+
+/* stars */
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
 }
 
 h1{
@@ -52,7 +69,7 @@ justify-content:center;
 font-size:45px;
 cursor:pointer;
 transition:0.3s;
-box-shadow:0 0 15px white;
+box-shadow:0 0 20px white;
 }
 
 .box:hover{
@@ -70,12 +87,12 @@ padding:25px;
 border-radius:15px;
 width:320px;
 display:none;
-box-shadow:0 0 20px pink;
+box-shadow:0 0 25px pink;
 font-size:18px;
 }
 
 #close{
-margin-top:10px;
+margin-top:15px;
 padding:8px 15px;
 border:none;
 background:#ff4da6;
@@ -86,13 +103,13 @@ cursor:pointer;
 
 .heart{
 position:absolute;
-font-size:25px;
+font-size:24px;
 animation:rise 4s linear forwards;
 }
 
 @keyframes rise{
 0%{transform:translateY(0);opacity:1}
-100%{transform:translateY(-600px);opacity:0}
+100%{transform:translateY(-700px);opacity:0}
 }
 
 #proposal{
@@ -101,7 +118,7 @@ margin-top:40px;
 }
 
 button{
-padding:12px 20px;
+padding:12px 22px;
 font-size:18px;
 border:none;
 border-radius:25px;
@@ -109,8 +126,17 @@ margin:10px;
 cursor:pointer;
 }
 
-#yes{background:#ff4da6;color:white;}
-#no{background:black;color:white;position:relative;}
+#yes{
+background:#ff4da6;
+color:white;
+}
+
+#no{
+background:black;
+color:white;
+position:relative;
+}
+
 </style>
 
 </head>
@@ -147,11 +173,25 @@ cursor:pointer;
 
 <script>
 
-const music = document.getElementById("music");
+/* stars */
 
-document.body.addEventListener("click",function(){
-music.play();
-},{once:true});
+for(let i=0;i<120;i++){
+let star=document.createElement("div")
+star.className="star"
+star.style.left=Math.random()*100+"%"
+star.style.top=Math.random()*100+"%"
+document.body.appendChild(star)
+}
+
+/* music */
+
+const music=document.getElementById("music")
+
+document.body.addEventListener("click",()=>{
+music.play()
+},{once:true})
+
+/* quotes */
 
 const quotes=[
 "You are the calm in my chaos.",
@@ -164,84 +204,108 @@ const quotes=[
 "You are the magic in my ordinary life.",
 "Forever is beautiful if it's with you.",
 "My heart beats your name."
-];
+]
 
-let q=0;
+let q=0
 
 function showMessage(msg){
-document.getElementById("text").innerHTML=msg;
-document.getElementById("messageBox").style.display="block";
+document.getElementById("text").innerHTML=msg
+document.getElementById("messageBox").style.display="block"
 }
 
 function closeMsg(){
-document.getElementById("messageBox").style.display="none";
+document.getElementById("messageBox").style.display="none"
 }
 
+/* letters */
+
 function letters(){
-showMessage(quotes[q]);
-q++;
-if(q>=quotes.length){q=0;}
+
+showMessage(quotes[q])
+
+q++
+
+if(q>=quotes.length){
+q=0
 }
+
+}
+
+/* kisses */
 
 function kisses(){
 
-for(let i=0;i<30;i++){
+for(let i=0;i<40;i++){
 
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💋";
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="💋"
 
-heart.style.left=Math.random()*100+"%";
-heart.style.bottom="0px";
+heart.style.left=Math.random()*100+"%"
+heart.style.bottom="0px"
 
-document.body.appendChild(heart);
+document.body.appendChild(heart)
 
-setTimeout(()=>heart.remove(),4000);
+setTimeout(()=>heart.remove(),4000)
+
 }
 
-showMessage("Every kiss floating here is one I wish I could give you right now 💋");
+showMessage("Every kiss flying here is one I wish I could give you right now 💋")
+
 }
+
+/* chocolate */
 
 function cake(){
 
-for(let i=0;i<25;i++){
+for(let i=0;i<35;i++){
 
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="🍫";
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="🍫"
 
-heart.style.left=Math.random()*100+"%";
-heart.style.bottom="0px";
+heart.style.left=Math.random()*100+"%"
+heart.style.bottom="0px"
 
-document.body.appendChild(heart);
+document.body.appendChild(heart)
 
-setTimeout(()=>heart.remove(),4000);
+setTimeout(()=>heart.remove(),4000)
+
 }
 
-showMessage("Chocolate and cheesecake remind me of you... sweet, beautiful, and impossible to resist 🍰");
+showMessage("Chocolate and cheesecake remind me of you… sweet, beautiful and impossible to resist 🍰")
+
 }
+
+/* heart vault */
 
 function heart(){
 
-showMessage("Rena... In every universe, every timeline, every life... I would still find you and fall in love with you again ❤️");
+showMessage("Rena… In every universe, every timeline, every life… I would still find you and fall in love with you again ❤️")
 
-document.getElementById("proposal").style.display="block";
+document.getElementById("proposal").style.display="block"
+
 }
+
+/* yes */
 
 function yes(){
 
-document.body.innerHTML="<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>";
+document.body.innerHTML="<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>"
+
 }
 
-const no=document.getElementById("no");
+/* running no button */
+
+const no=document.getElementById("no")
 
 no.addEventListener("mouseover",()=>{
 
-no.style.position="absolute";
-no.style.left=Math.random()*window.innerWidth+"px";
-no.style.top=Math.random()*window.innerHeight+"px";
+no.style.position="absolute"
+no.style.left=Math.random()*window.innerWidth+"px"
+no.style.top=Math.random()*window.innerHeight+"px"
 
-});
+})
 
 </script>
 
