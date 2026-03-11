@@ -39,37 +39,44 @@ text-shadow:0 0 15px pink;
 }
 
 #bunny{
-font-size:80px;
+font-size:90px;
 animation:float 3s infinite ease-in-out;
+cursor:pointer;
 }
 
 @keyframes float{
 0%{transform:translateY(0)}
-50%{transform:translateY(-15px)}
+50%{transform:translateY(-20px)}
 100%{transform:translateY(0)}
 }
 
 .boxes{
 display:flex;
 justify-content:center;
-gap:25px;
+gap:30px;
 margin-top:40px;
 flex-wrap:wrap;
 }
 
 .box{
-width:120px;
-height:120px;
+width:130px;
+height:130px;
 background:white;
 color:black;
 border-radius:20px;
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
-font-size:45px;
+font-size:40px;
 cursor:pointer;
+box-shadow:0 0 25px white;
 transition:0.3s;
-box-shadow:0 0 20px white;
+}
+
+.box span{
+font-size:14px;
+margin-top:5px;
 }
 
 .box:hover{
@@ -85,10 +92,11 @@ background:white;
 color:black;
 padding:25px;
 border-radius:15px;
-width:320px;
+width:330px;
 display:none;
 box-shadow:0 0 25px pink;
 font-size:18px;
+min-height:80px;
 }
 
 #close{
@@ -112,6 +120,17 @@ animation:rise 4s linear forwards;
 100%{transform:translateY(-700px);opacity:0}
 }
 
+.rose{
+position:absolute;
+font-size:26px;
+animation:fall 5s linear forwards;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px)}
+100%{transform:translateY(700px)}
+}
+
 #proposal{
 display:none;
 margin-top:40px;
@@ -126,15 +145,18 @@ margin:10px;
 cursor:pointer;
 }
 
-#yes{
-background:#ff4da6;
-color:white;
+#yes{background:#ff4da6;color:white;}
+#no{background:black;color:white;position:relative;}
+
+.fire{
+position:absolute;
+font-size:30px;
+animation:boom 2s forwards;
 }
 
-#no{
-background:black;
-color:white;
-position:relative;
+@keyframes boom{
+0%{transform:scale(0)}
+100%{transform:scale(2);opacity:0}
 }
 
 </style>
@@ -145,15 +167,15 @@ position:relative;
 
 <h1>Welcome to Rax's Love World</h1>
 
-<div id="bunny">🐰</div>
+<div id="bunny" onclick="bunnyTalk()">🐰</div>
 
-<p>This bunny has been guarding my love for you Rena 💖</p>
+<p id="bunnyText">Click the bunny to hear its secret...</p>
 
 <div class="boxes">
-<div class="box" onclick="letters()">💌</div>
-<div class="box" onclick="kisses()">💋</div>
-<div class="box" onclick="cake()">🍰</div>
-<div class="box" onclick="heart()">❤️</div>
+<div class="box" onclick="letters()">💌<span>Letters</span></div>
+<div class="box" onclick="kisses()">💋<span>Kisses</span></div>
+<div class="box" onclick="cake()">🍫<span>Chocolate</span></div>
+<div class="box" onclick="heart()">❤️<span>Heart</span></div>
 </div>
 
 <div id="proposal">
@@ -186,31 +208,29 @@ document.body.appendChild(star)
 /* music */
 
 const music=document.getElementById("music")
+document.body.addEventListener("click",()=>{music.play()},{once:true})
 
-document.body.addEventListener("click",()=>{
-music.play()
-},{once:true})
+/* bunny talk */
 
-/* quotes */
+function bunnyTalk(){
+document.getElementById("bunnyText").innerText="Rax asked me to protect his love for you, Rena 💖"
+}
 
-const quotes=[
-"You are the calm in my chaos.",
-"Loving you is my favorite destiny.",
-"Your smile fixes my worst days.",
-"My heart feels home when I am with you.",
-"You are my favorite chapter in life.",
-"In every universe I would still choose you.",
-"Your eyes are the universe where I get lost.",
-"You are the magic in my ordinary life.",
-"Forever is beautiful if it's with you.",
-"My heart beats your name."
-]
+/* typewriter */
 
-let q=0
+function typeWriter(text){
 
-function showMessage(msg){
-document.getElementById("text").innerHTML=msg
+let i=0
+let box=document.getElementById("text")
+box.innerHTML=""
 document.getElementById("messageBox").style.display="block"
+
+let interval=setInterval(()=>{
+box.innerHTML+=text[i]
+i++
+if(i>=text.length)clearInterval(interval)
+},35)
+
 }
 
 function closeMsg(){
@@ -219,15 +239,23 @@ document.getElementById("messageBox").style.display="none"
 
 /* letters */
 
+const quotes=[
+"You are the calm in my chaos.",
+"Loving you is my favorite destiny.",
+"Your smile fixes my worst days.",
+"My heart feels home when I am with you.",
+"In every universe I would still choose you.",
+"Your eyes are the universe where I get lost."
+]
+
+let q=0
+
 function letters(){
 
-showMessage(quotes[q])
+typeWriter(quotes[q])
 
 q++
-
-if(q>=quotes.length){
-q=0
-}
+if(q>=quotes.length)q=0
 
 }
 
@@ -247,10 +275,9 @@ heart.style.bottom="0px"
 document.body.appendChild(heart)
 
 setTimeout(()=>heart.remove(),4000)
-
 }
 
-showMessage("Every kiss flying here is one I wish I could give you right now 💋")
+typeWriter("Every kiss flying here is one I wish I could give you right now 💋")
 
 }
 
@@ -270,10 +297,30 @@ heart.style.bottom="0px"
 document.body.appendChild(heart)
 
 setTimeout(()=>heart.remove(),4000)
+}
+
+typeWriter("Chocolate and cheesecake remind me of you… sweet and irresistible 🍰")
 
 }
 
-showMessage("Chocolate and cheesecake remind me of you… sweet, beautiful and impossible to resist 🍰")
+/* roses */
+
+function roses(){
+
+for(let i=0;i<20;i++){
+
+let r=document.createElement("div")
+r.className="rose"
+r.innerHTML="🌹"
+
+r.style.left=Math.random()*100+"%"
+r.style.top="-20px"
+
+document.body.appendChild(r)
+
+setTimeout(()=>r.remove(),5000)
+
+}
 
 }
 
@@ -281,21 +328,37 @@ showMessage("Chocolate and cheesecake remind me of you… sweet, beautiful and i
 
 function heart(){
 
-showMessage("Rena… In every universe, every timeline, every life… I would still find you and fall in love with you again ❤️")
+roses()
+
+typeWriter("Rena… In every universe, every timeline, every life… I would still find you and fall in love with you again ❤️")
 
 document.getElementById("proposal").style.display="block"
 
 }
 
-/* yes */
+/* yes fireworks */
 
 function yes(){
+
+for(let i=0;i<40;i++){
+
+let f=document.createElement("div")
+f.className="fire"
+f.innerHTML="🎆"
+
+f.style.left=Math.random()*100+"%"
+f.style.top=Math.random()*100+"%"
+
+document.body.appendChild(f)
+
+setTimeout(()=>f.remove(),2000)
+}
 
 document.body.innerHTML="<h1>❤️ You just made the happiest man alive ❤️</h1><h2>I love you forever Rena</h2>"
 
 }
 
-/* running no button */
+/* running no */
 
 const no=document.getElementById("no")
 
